@@ -45,3 +45,39 @@ add_action('admin_menu', 'opi_plugin_add_settings_menu');
  * Register and define the settings
  */
 add_action('admin_init', 'opi_plugin_admin_init');
+
+/**
+ * Use the options that have been previously defined to load html code sets into the posts
+ * 
+ * Use the content filter to add the code set to the posts based on the option's values
+ */
+add_filter('the_content', 'append_html_code_set', PHP_INT_MAX);
+
+function append_html_code_set($content) {
+    $options = get_option('opi_plugin_options');
+
+    // Retrieve the category objects for this post
+    $current_post_categories = get_the_category();
+
+    $include = false;
+    $exclude = false;
+    foreach($current_post_categories as $cat_obj) {
+        // If the current category is to be included
+        if (in_array($cat_obj->cat_ID, $options['include_cat_filter'])) {
+            $include = true;
+        }
+        // If the current category is to be excluded
+        if (in_array($cat_obj->cat_ID, $options['exclude_cat_filter'])) {
+            $exclude = true;
+        }
+    }
+
+    if (in_the_loop()) {
+        // If the toggle option is enabled and this post is to be included and not excluded then add the html
+        if ($options['toggle'] == 'enabled' && $include == true && $exclude == false) {
+            $content .= $options['html'];
+        }
+    }
+    
+    return $content;
+}

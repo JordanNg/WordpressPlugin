@@ -147,6 +147,7 @@ function opi_plugin_setting_include_categories() {
 
     $all_cats = get_categories();
 
+    // For each of the categories currently associated with a post
     foreach($all_cats as $cat) {
         echo "<input type='checkbox' name='opi_plugin_options[include_cat_filter][]' value='".$cat->cat_ID."' "
         .checked(in_array($cat->cat_ID, $include_cat_filter), true, false)."/>";
@@ -163,6 +164,7 @@ function opi_plugin_setting_exclude_categories() {
 
     $all_cats = get_categories();
 
+    // For each of the categories currently associated with a post
     foreach($all_cats as $cat) {
         echo "<input type='checkbox' name='opi_plugin_options[exclude_cat_filter][]' value='".$cat->cat_ID."' "
         .checked(in_array($cat->cat_ID, $exclude_cat_filter), true, false)."/>";
