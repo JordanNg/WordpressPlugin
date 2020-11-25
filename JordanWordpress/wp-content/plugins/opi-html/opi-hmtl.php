@@ -10,7 +10,7 @@
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  */
 
- /*
+/*
  Copyright (C) yyyy  name of author
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -28,8 +28,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 /**
- * Start by creating the OPI HTML Settings menu by adding it as
- * a sub-menu to the existing top level Settings menu
+ * Name of all of the options that have been created for future usage:
+ * 
+ * ['html']                     // string of html
+ * 
+ * ['location']                 // Integer to designate the html code set to be inserted
+ * ['paragraph_limit']          // The minimum number of paragraphs needed to insert the code set
+ * 
+ * ['include_cat_filter']       // Array of cat_ids that should include the code set
+ * ['exclude_cat_filter']       // Array of cat_ids that should exclude the code set 
+ * 
+ * ['toggle']                   // A string that has the values of enabled or disabled
  */
 
 /**
@@ -72,9 +81,22 @@ function append_html_code_set($content) {
         }
     }
 
+    /**
+     * Parse the post's content using DOMDocument to determine code set location 
+     * and if the paragraph limit has been met.
+    */
+    // TODO: 
+    $dom = new DOMDocument;
+    $dom->loadHTML($content);
+    
+    foreach($dom->getElementsByTagName('p') as $node) {
+        $paragraphs[] = $dom->saveHTML($node);
+    }
+
+    // Could also use is_single to make sure that it can only be on singular posts (so not the home page).
     if (in_the_loop()) {
         // If the toggle option is enabled and this post is to be included and not excluded then add the html
-        if ($options['toggle'] == 'enabled' && $include == true && $exclude == false) {
+        if ($options['toggle'] == 'enabled' && $include == true && $exclude == false && count($paragraphs) >= $options['paragraph_limit']) {
             $content .= $options['html'];
         }
     }

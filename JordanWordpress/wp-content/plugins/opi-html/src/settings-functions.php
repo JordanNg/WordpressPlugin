@@ -202,6 +202,7 @@ function opi_plugin_validate_options($input) {
      * This is not proper sanitization or validation, 
      * still need to figure out how to properly sanitize adn validate these types of data.
     */
+    // FIXME:
     $valid['html'] = $input['html'];
 
     $valid['location'] = $input['location'];
