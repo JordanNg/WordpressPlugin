@@ -27,21 +27,21 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-// Start by creating the settings menu for this plugin
+/**
+ * Start by creating the OPI HTML Settings menu by adding it as
+ * a sub-menu to the existing top level Settings menu
+ */
+
+/**
+ * Includes for the functions needed
+ */
+include plugin_dir_path(__FILE__) . '/src/settings-functions.php';
+
+// Add the settings menu using the functions defined in the settings-functions file
 add_action('admin_menu', 'opi_plugin_add_settings_menu');
 
-function opi_plugin_add_settings_menu() {
-    add_options_page('OPI HTML Plugin Settings', 'OPI HTML Settings', 'manage_options', 
-    'opi_plugin', 'opi_render_plugin_options_page');
-}
-
-// Create the option page to set the HTML code variables
-function opi_render_plugin_options_page() {
-    ?>
-    <div class="wrap">
-        <h2>OPI HTML Plugin</h2>
-        <form action="options.php" method="post">
-        </form>
-    </div>
-<?php
-}
+/**
+ * Use the Settings API to create the options that we wish to save
+ * Register and define the settings
+ */
+add_action('admin_init', 'opi_plugin_admin_init');
