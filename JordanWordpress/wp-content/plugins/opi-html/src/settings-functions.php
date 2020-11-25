@@ -60,6 +60,24 @@ function opi_plugin_admin_init() {
         'opi_plugin_main'
     );
 
+     // Create our settings field for the location
+     add_settings_field(
+        'opi_plugin_location',
+        'Place Code Set After Paragraph',
+        'opi_plugin_setting_location',
+        'opi_plugin',
+        'opi_plugin_main'
+    );
+
+    // Create our settings field for the paragraph_limit
+    add_settings_field(
+        'opi_plugin_paragraph_limit',
+        'Paragraph Limit',
+        'opi_plugin_setting_paragraph_limit',
+        'opi_plugin',
+        'opi_plugin_main'
+    );
+
     // Create a settings field for the include category filter
     add_settings_field(
         'opi_plugin_include_categories',
@@ -94,13 +112,31 @@ function opi_plugin_admin_init() {
  * Display and fill the html code set fields using the callback functions
  */
 function opi_plugin_setting_html() {
-    // get option 'text_string' value from the database
+    // get option 'html' value from the database
     $options = get_option('opi_plugin_options');
     $html = $options['html'];
 
     // echo the field
     echo "<textarea id='html' name='opi_plugin_options[html]' 
     rows='7' cols='50' type='textarea'>{$options['html']}</textarea>";
+}
+
+function opi_plugin_setting_location() {
+    // get option 'location' value from the database
+    $options = get_option('opi_plugin_options');
+    $location = $options['location'];
+
+    echo "<input type='number' id='location' name='opi_plugin_options[location]' 
+    value='".$location."'>";
+}
+
+function opi_plugin_setting_paragraph_limit() {
+    // get option 'location' value from the database
+    $options = get_option('opi_plugin_options');
+    $paragraph_limit = $options['paragraph_limit'];
+
+    echo "<input type='number' id='paragraph_limit' name='opi_plugin_options[paragraph_limit]' 
+    value='".$paragraph_limit."'>";
 }
 
 // Display and select the categories select field
@@ -154,16 +190,24 @@ function opi_plugin_setting_toggle() {
 }
 
 /**
- * Sanitization Function
+ * Validation and Sanitization Function
  * 
- * Sanitize the inputs so that the form inputs are more secure
+ * Validate and Sanitize the inputs so that the form is more secure
  */
 function opi_plugin_validate_options($input) {
     $valid = array();
-    // This is not sanitization, still need to figure out how to properly sanitize these types of data.
+    /**
+     * This is not proper sanitization or validation, 
+     * still need to figure out how to properly sanitize adn validate these types of data.
+    */
     $valid['html'] = $input['html'];
+
+    $valid['location'] = $input['location'];
+    $valid['paragraph_limit'] = $input['paragraph_limit'];
+
     $valid['include_cat_filter'] = $input['include_cat_filter'];
     $valid['exclude_cat_filter'] = $input['exclude_cat_filter'];
+
     $valid['toggle'] = sanitize_text_field($input['toggle']);
     
     return $valid;
