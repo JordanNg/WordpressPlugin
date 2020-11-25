@@ -1,4 +1,4 @@
-# WordpressPlugin
+# Wordpress Plugin
 
 I decided to use MAMP to locally host a Wordpress site so that I could start development of the plugin. 
 I had to change DB_HOST in the wp-config file to 127.0.0.1:8889 but I think that changing it back to localhost should be fine if there are any issues.
